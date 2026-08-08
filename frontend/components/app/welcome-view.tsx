@@ -1,63 +1,138 @@
-import { Button } from '@/components/ui/button';
+'use client';
 
-function WelcomeImage() {
-  return (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="text-fg0 mb-4 size-16"
-    >
-      <path
-        d="M15 24V40C15 40.7957 14.6839 41.5587 14.1213 42.1213C13.5587 42.6839 12.7956 43 12 43C11.2044 43 10.4413 42.6839 9.87868 42.1213C9.31607 41.5587 9 40.7957 9 40V24C9 23.2044 9.31607 22.4413 9.87868 21.8787C10.4413 21.3161 11.2044 21 12 21C12.7956 21 13.5587 21.3161 14.1213 21.8787C14.6839 22.4413 15 23.2044 15 24ZM22 5C21.2044 5 20.4413 5.31607 19.8787 5.87868C19.3161 6.44129 19 7.20435 19 8V56C19 56.7957 19.3161 57.5587 19.8787 58.1213C20.4413 58.6839 21.2044 59 22 59C22.7956 59 23.5587 58.6839 24.1213 58.1213C24.6839 57.5587 25 56.7957 25 56V8C25 7.20435 24.6839 6.44129 24.1213 5.87868C23.5587 5.31607 22.7956 5 22 5ZM32 13C31.2044 13 30.4413 13.3161 29.8787 13.8787C29.3161 14.4413 29 15.2044 29 16V48C29 48.7957 29.3161 49.5587 29.8787 50.1213C30.4413 50.6839 31.2044 51 32 51C32.7956 51 33.5587 50.6839 34.1213 50.1213C34.6839 49.5587 35 48.7957 35 48V16C35 15.2044 34.6839 14.4413 34.1213 13.8787C33.5587 13.3161 32.7956 13 32 13ZM42 21C41.2043 21 40.4413 21.3161 39.8787 21.8787C39.3161 22.4413 39 23.2044 39 24V40C39 40.7957 39.3161 41.5587 39.8787 42.1213C40.4413 42.6839 41.2043 43 42 43C42.7957 43 43.5587 42.6839 44.1213 42.1213C44.6839 41.5587 45 40.7957 45 40V24C45 23.2044 44.6839 22.4413 44.1213 21.8787C43.5587 21.3161 42.7957 21 42 21ZM52 17C51.2043 17 50.4413 17.3161 49.8787 17.8787C49.3161 18.4413 49 19.2044 49 20V44C49 44.7957 49.3161 45.5587 49.8787 46.1213C50.4413 46.6839 51.2043 47 52 47C52.7957 47 53.5587 46.6839 54.1213 46.1213C54.6839 45.5587 55 44.7957 55 44V20C55 19.2044 54.6839 18.4413 54.1213 17.8787C53.5587 17.3161 52.7957 17 52 17Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+import React from 'react';
+import { Mic, PhoneCall, RotateCcw, ShieldCheck, Landmark, ShieldAlert, HeartHandshake, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { AgentStatusBadge } from '@/components/app/agent-status-badge';
 
 interface WelcomeViewProps {
   startButtonText: string;
   onStartCall: () => void;
+  hasCallEnded?: boolean;
 }
 
 export const WelcomeView = ({
   startButtonText,
   onStartCall,
+  hasCallEnded = false,
   ref,
 }: React.ComponentProps<'div'> & WelcomeViewProps) => {
   return (
-    <div ref={ref}>
-      <section className="bg-background flex flex-col items-center justify-center text-center">
-        <WelcomeImage />
+    <div ref={ref} className="relative flex flex-col items-center justify-center w-full min-h-svh px-4 pt-24 pb-10 md:pt-28 md:pb-12 overflow-y-auto">
+      {/* Background ambient lighting glows */}
+      <div className="absolute -z-10 size-96 rounded-full bg-emerald-500/15 blur-[120px] animate-pulse pointer-events-none" />
+      <div className="absolute -z-10 size-80 rounded-full bg-cyan-500/15 blur-[100px] pointer-events-none translate-x-12 translate-y-12" />
 
-        <p className="text-foreground max-w-prose pt-1 leading-6 font-medium">
-          Chat live with your voice AI agent
-        </p>
+      <section className="relative z-10 flex flex-col items-center text-center max-w-md w-full space-y-5">
+        {/* Glowing Voice Orb */}
+        <div className="relative z-10 group flex items-center justify-center my-1">
+          {/* Dual animated neon glow rings */}
+          <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 blur-xl opacity-50 group-hover:opacity-85 transition-opacity duration-500 animate-tilt" />
+          <div className="absolute inset-0 rounded-full bg-emerald-500/20 blur-md animate-ping duration-1000 opacity-40" />
 
-        <Button
-          size="lg"
-          onClick={onStartCall}
-          className="mt-6 w-64 rounded-full font-mono text-xs font-bold tracking-wider uppercase"
-        >
-          {startButtonText}
-        </Button>
+          {/* Core Orb Container */}
+          <div className="relative flex size-28 items-center justify-center rounded-full bg-slate-950/80 border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.3)] backdrop-blur-2xl transition-transform duration-300 group-hover:scale-105">
+            {hasCallEnded ? (
+              <RotateCcw className="size-10 text-emerald-400/80 animate-spin-slow" />
+            ) : (
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-8 bg-emerald-400 rounded-full animate-bounce delay-75 shadow-[0_0_10px_#34d399]" />
+                <span className="w-1.5 h-12 bg-teal-400 rounded-full animate-bounce delay-150 shadow-[0_0_12px_#2dd4bf]" />
+                <span className="w-1.5 h-9 bg-cyan-400 rounded-full animate-bounce delay-300 shadow-[0_0_10px_#38bdf8]" />
+                <span className="w-1.5 h-6 bg-emerald-300 rounded-full animate-bounce delay-100 shadow-[0_0_8px_#6ee7b7]" />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* State Badge */}
+        <AgentStatusBadge
+          state={hasCallEnded ? 'ended' : 'ready'}
+          showSubtitle
+        />
+
+        {/* Main Heading & Tagline */}
+        <div className="space-y-2">
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent drop-shadow-sm">
+            {hasCallEnded ? 'Session Completed' : 'FinGuard Voice Assistant'}
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
+            {hasCallEnded
+              ? 'Your financial voice session has ended. Click below whenever you are ready to start a new conversation.'
+              : 'Your voice-guided helper for basic banking, government schemes, and financial scam protection in Hindi & English.'}
+          </p>
+        </div>
+
+        {/* Single Clear Primary Action Button */}
+        <div className="w-full pt-1">
+          <Button
+            size="lg"
+            onClick={onStartCall}
+            className="w-full sm:w-80 h-13 rounded-full font-bold text-sm tracking-wider uppercase transition-all duration-300 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:shadow-[0_0_40px_rgba(16,185,129,0.6)] hover:scale-[1.03] active:scale-[0.98] border-none gap-2.5"
+          >
+            {hasCallEnded ? (
+              <>
+                <RotateCcw className="size-4" />
+                Start New Call
+              </>
+            ) : (
+              <>
+                <PhoneCall className="size-4 fill-slate-950" />
+                {startButtonText || 'Start Financial Safety Call'}
+              </>
+            )}
+          </Button>
+        </div>
+
+        {/* Premium Glassmorphism Feature Cards */}
+        <div className="pt-4 grid grid-cols-3 gap-3 w-full border-t border-slate-800/80 text-left">
+          <div className="flex flex-col items-start gap-1.5 p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl hover:border-emerald-500/40 hover:bg-slate-900/80 transition-all shadow-lg group">
+            <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
+              <Landmark className="size-4" />
+            </div>
+            <span className="text-[11px] font-semibold text-slate-200 leading-tight">Government Schemes</span>
+          </div>
+
+          <div className="flex flex-col items-start gap-1.5 p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl hover:border-teal-500/40 hover:bg-slate-900/80 transition-all shadow-lg group">
+            <div className="p-1.5 rounded-lg bg-teal-500/10 border border-teal-500/20 text-teal-400 group-hover:scale-110 transition-transform">
+              <HeartHandshake className="size-4" />
+            </div>
+            <span className="text-[11px] font-semibold text-slate-200 leading-tight">Basic Banking</span>
+          </div>
+
+          <div className="flex flex-col items-start gap-1.5 p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl hover:border-cyan-500/40 hover:bg-slate-900/80 transition-all shadow-lg group">
+            <div className="p-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 group-hover:scale-110 transition-transform">
+              <ShieldAlert className="size-4" />
+            </div>
+            <span className="text-[11px] font-semibold text-slate-200 leading-tight">Scam Safety</span>
+          </div>
+        </div>
+
+        {/* Sample Voice Prompts */}
+        <div className="w-full pt-1 space-y-2 text-left">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center flex items-center justify-center gap-1">
+            <Sparkles className="size-3 text-emerald-400" />
+            Try asking things like:
+          </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            <span className="text-[11px] px-3 py-1.5 rounded-full bg-slate-900/70 border border-emerald-500/30 text-emerald-300 font-medium hover:border-emerald-400 transition-colors shadow-sm cursor-pointer">
+              "PM Kisan Yojana ki eligibility kya hai?"
+            </span>
+            <span className="text-[11px] px-3 py-1.5 rounded-full bg-slate-900/70 border border-teal-500/30 text-teal-300 font-medium hover:border-teal-400 transition-colors shadow-sm cursor-pointer">
+              "UPI PIN share karna safe hai ya nahi?"
+            </span>
+            <span className="text-[11px] px-3 py-1.5 rounded-full bg-slate-900/70 border border-cyan-500/30 text-cyan-300 font-medium hover:border-cyan-400 transition-colors shadow-sm cursor-pointer">
+              "Fake call identify kaise karein?"
+            </span>
+          </div>
+        </div>
       </section>
 
-      <div className="fixed bottom-5 left-0 flex w-full items-center justify-center">
-        <p className="text-muted-foreground max-w-prose pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">
-          Need help getting set up? Check out the{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://docs.livekit.io/agents/start/voice-ai/"
-            className="underline"
-          >
-            Voice AI quickstart
-          </a>
-          .
+      {/* Security notice */}
+      <div className="mt-8 text-center max-w-xs">
+        <p className="text-slate-400 text-[11px] leading-relaxed flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/50 border border-slate-800">
+          <ShieldCheck className="size-3.5 text-emerald-400 shrink-0" />
+          <span>FinGuard will never ask for OTP, PIN, password, or CVV.</span>
         </p>
       </div>
     </div>

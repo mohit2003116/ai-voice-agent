@@ -1,66 +1,29 @@
-# Voice Agent Starter — Powered by Murf Falcon
+# FinGuard Voice Assistant — Financial Services Voice AI
 
-Build a production voice AI agent in 5 minutes. Powered by the fastest TTS on the market - swap the system prompt to build anything from customer support to language tutors.
+Powered by **LiveKit Agents**, **Murf Falcon TTS** (fastest production TTS), **Deepgram STT**, and **Gemini Flash Lite**. FinGuard AI is a voice-guided assistant for basic banking, government scheme eligibility, and financial scam protection in Hindi and English.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Murf Falcon](https://img.shields.io/badge/TTS-Murf%20Falcon-6366F1)](https://murf.ai/api/docs/text-to-speech/streaming) [![LiveKit](https://img.shields.io/badge/Transport-LiveKit-002cf2)](https://docs.livekit.io) [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-
----
-
-## Why Murf Falcon
-
-- **55ms model latency** - fastest production TTS
-- **130ms time-to-first-audio** across 10+ global regions
-- **$0.01/1000 characters** - up to 10x cheaper than alternatives
-- **150+ voices** across 35+ languages
-- **99.38% pronunciation accuracy**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Murf Falcon](https://img.shields.io/badge/TTS-Murf%20Falcon-6366F1)](https://murf.ai/api/docs/text-to-speech/streaming) [![LiveKit](https://img.shields.io/badge/Transport-LiveKit-002cf2)](https://docs.livekit.io) [![Track](https://img.shields.io/badge/Track-Financial%20Services-10b981)](#)
 
 ---
 
-## Architecture
+## FinGuard AI Capabilities & Guardrails
 
-```mermaid
-flowchart LR
-    A[🎙️ User speaks] -->|audio| B[Deepgram STT]
-    B -->|text| C[LLM]
-    C -->|response text| D[Murf Falcon TTS]
-    D -->|audio| E[LiveKit]
-    E -->|stream| F[🔊 User hears]
-
-    style A fill:#444441,stroke:#888780,color:#fff
-    style B fill:#185FA5,stroke:#85B7EB,color:#fff
-    style C fill:#534AB7,stroke:#AFA9EC,color:#fff
-    style D fill:#0F6E56,stroke:#5DCAA5,color:#fff
-    style E fill:#D85A30,stroke:#F0997B,color:#fff
-    style F fill:#444441,stroke:#888780,color:#fff
-```
+- 🏛️ **Government Schemes**: Explains eligibility & application details for PM Kisan, Jan Dhan, etc., in simple language.
+- 🤝 **Basic Banking Guidance**: Helps users understand safe banking practices, savings accounts, and digital transactions.
+- 🛡️ **Scam & Fraud Safety**: Identifies warning signs of UPI scams, fake caller links, and fraudulent QR codes.
+- 🔒 **Security Guardrails**: **Strictly refuses** to ask for or accept OTP, UPI PIN, ATM PIN, CVV, passwords, or full bank account numbers.
 
 ---
 
-## Quickstart
+## 5 Agent States (Day 3 Frontend Implementation)
 
-### Prerequisites
+The frontend explicitly displays the 5 core agent interaction states:
 
-- **Python** 3.10+
-- **[uv](https://docs.astral.sh/uv/)** - fast Python package manager
-  ```bash
-  # macOS/Linux
-  curl -LsSf https://astral.sh/uv/install.sh | sh
-  # Windows (PowerShell)
-  powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-  ```
-- **Node.js** 18+
-- **pnpm** — fast Node package manager
-  ```bash
-  npm install -g pnpm
-  ```
-- A [LiveKit](https://cloud.livekit.io/) project (free tier available)
-
-### Step 1: Clone the repo
-
-```bash
-git clone https://github.com/murf-ai/murf-livekit-starter.git
-cd murf-livekit-starter
-```
+1. **Ready**: Idle state featuring a glowing voice orb and a single primary action button (**Start Financial Safety Call**).
+2. **Connecting**: Active joining state with an amber spinner and wait notice (*"Joining the call — please wait..."*).
+3. **Listening**: User speaking or agent listening, with cyan mic visualizer and **"Listening to you"** badge.
+4. **Speaking**: Agent replying with purple audio wave animation and **"Agent is speaking"** badge.
+5. **Call Ended**: Conversation completed with a session summary and explicit **Start New Call** reset button.
 
 ### Step 2: Set up environment variables
 

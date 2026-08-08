@@ -41,7 +41,9 @@ export function App({ appConfig }: AppProps) {
   return (
     <AgentSessionProvider session={session}>
       <AppSetup />
-      <main className="grid h-svh grid-cols-1 place-content-center">
+      <main className="relative flex min-h-svh w-full flex-col items-center justify-center bg-gradient-to-b from-slate-950 via-background to-background overflow-x-hidden overflow-y-auto">
+        {/* Background fintech radial glow */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(16,185,129,0.15),rgba(255,255,255,0))]" />
         <ViewController appConfig={appConfig} />
       </main>
       <StartAudioButton label="Start Audio" />

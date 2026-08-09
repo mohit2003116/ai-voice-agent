@@ -4,79 +4,72 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================================
+   FINGUARD DARK FINTECH DESIGN SYSTEM
+   ============================================================ */
+
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.75rem;
+
+  /* Force dark fintech palette everywhere */
+  --background: #05070A;
+  --foreground: #E8EDF5;
+  --card: #0D1624;
+  --card-foreground: #E8EDF5;
+  --popover: #0B1220;
+  --popover-foreground: #E8EDF5;
+  --primary: #10b981;
+  --primary-foreground: #05070A;
+  --secondary: #0B1220;
+  --secondary-foreground: #94a3b8;
+  --muted: #0D1624;
+  --muted-foreground: #64748b;
+  --accent: #0D1624;
+  --accent-foreground: #E8EDF5;
+  --destructive: oklch(0.65 0.24 25);
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #10b981;
+
+  /* FinGuard brand colors */
+  --fg-emerald: #10b981;
+  --fg-emerald-bright: #34d399;
+  --fg-cyan: #22d3ee;
+  --fg-teal: #2dd4bf;
+  --fg-navy: #0B1220;
+  --fg-card: #0D1624;
+  --fg-bg: #05070A;
+  --fg-text: #E8EDF5;
+  --fg-muted: #64748b;
+  --fg-border: rgba(255, 255, 255, 0.06);
 }
 
+/* Dark is always active — same values */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.269 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.371 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.439 0 0);
+  --background: #05070A;
+  --foreground: #E8EDF5;
+  --card: #0D1624;
+  --card-foreground: #E8EDF5;
+  --popover: #0B1220;
+  --popover-foreground: #E8EDF5;
+  --primary: #10b981;
+  --primary-foreground: #05070A;
+  --secondary: #0B1220;
+  --secondary-foreground: #94a3b8;
+  --muted: #0D1624;
+  --muted-foreground: #64748b;
+  --accent: #0D1624;
+  --accent-foreground: #E8EDF5;
+  --destructive: oklch(0.65 0.24 25);
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #10b981;
 }
 
 @theme inline {
   --font-sans:
-    var(--font-public-sans), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    var(--font-inter), var(--font-public-sans), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-mono:
     var(--font-commit-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
@@ -99,26 +92,181 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
 @layer base {
   * {
-    @apply border-foreground/20 outline-ring/50;
+    @apply border-white/6 outline-emerald-500/50;
+  }
+  html {
+    background-color: #05070A;
+    color-scheme: dark;
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: #05070A;
+    color: #E8EDF5;
+    @apply antialiased;
   }
+}
+
+
+
+/* ============================================================
+   BACKGROUND DOT-GRID PATTERN
+   ============================================================ */
+.fg-dot-grid {
+  background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ============================================================
+   GLASSMORPHISM CARD
+   ============================================================ */
+.fg-glass {
+  background: rgba(13, 22, 36, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.fg-glass-hover {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.fg-glass-hover:hover {
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.08);
+}
+
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
+
+/* Orb outer ring pulse */
+@keyframes orb-ring-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50%       { opacity: 0.65; transform: scale(1.06); }
+}
+
+/* Orb middle ring */
+@keyframes orb-ring-mid {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(1.04); }
+}
+
+/* Orb inner glow */
+@keyframes orb-glow {
+  0%, 100% { box-shadow: 0 0 40px rgba(16,185,129,0.3), 0 0 80px rgba(16,185,129,0.1); }
+  50%       { box-shadow: 0 0 60px rgba(16,185,129,0.5), 0 0 120px rgba(16,185,129,0.2); }
+}
+
+/* Waveform bar bounce */
+@keyframes wave-bar {
+  0%, 100% { transform: scaleY(0.3); }
+  50%       { transform: scaleY(1); }
+}
+
+/* Connecting spinner ring */
+@keyframes ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Ambient glow drift */
+@keyframes glow-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  33%       { transform: translate(20px, -15px) scale(1.05); opacity: 0.7; }
+  66%       { transform: translate(-15px, 10px) scale(0.95); opacity: 0.4; }
+}
+
+/* Fade in up */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Ping for status dots */
+@keyframes status-ping {
+  0%    { transform: scale(1); opacity: 0.8; }
+  70%   { transform: scale(2); opacity: 0; }
+  100%  { transform: scale(2); opacity: 0; }
+}
+
+/* Shimmer for skeleton */
+@keyframes shimmer-sweep {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}
+
+/* Slow spin */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   ANIMATION UTILITY CLASSES
+   ============================================================ */
+.animate-orb-ring-pulse {
+  animation: orb-ring-pulse 3s ease-in-out infinite;
+}
+.animate-orb-ring-mid {
+  animation: orb-ring-mid 2.5s ease-in-out infinite 0.4s;
+}
+.animate-orb-glow {
+  animation: orb-glow 3s ease-in-out infinite;
+}
+.animate-wave-bar {
+  animation: wave-bar 0.9s ease-in-out infinite;
+}
+.animate-ring-spin {
+  animation: ring-spin 1.4s linear infinite;
+}
+.animate-glow-drift {
+  animation: glow-drift 8s ease-in-out infinite;
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out both;
+}
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+/* ============================================================
+   ANIMATION DELAYS
+   ============================================================ */
+.delay-0   { animation-delay: 0ms; }
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+
+/* ============================================================
+   STAGGER FADE IN (for feature cards, etc.)
+   ============================================================ */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+
+/* ============================================================
+   CUSTOM SCROLLBAR — DARK
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #05070A;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.25);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.5);
 }

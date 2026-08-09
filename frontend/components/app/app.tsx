@@ -41,9 +41,33 @@ export function App({ appConfig }: AppProps) {
   return (
     <AgentSessionProvider session={session}>
       <AppSetup />
-      <main className="grid h-svh grid-cols-1 place-content-center">
-        <ViewController appConfig={appConfig} />
+
+      {/* Full-page dark background */}
+      <main className="relative flex min-h-svh w-full flex-col items-center justify-start bg-[#05070A] overflow-x-hidden overflow-y-auto">
+
+        {/* ── Ambient background glows ── */}
+        {/* Primary emerald glow — center */}
+        <div
+          className="pointer-events-none fixed inset-0 z-0"
+          aria-hidden="true"
+        >
+          {/* Large emerald radial behind orb area */}
+          <div className="absolute left-1/2 top-[35%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] rounded-full bg-emerald-500/[0.06] blur-[100px] animate-glow-drift" />
+          {/* Cyan offset glow */}
+          <div className="absolute left-[60%] top-[50%] w-[400px] h-[350px] rounded-full bg-cyan-500/[0.04] blur-[90px]" style={{ animationDelay: '3s' }} />
+          {/* Bottom navy base glow */}
+          <div className="absolute left-[30%] top-[70%] w-[500px] h-[300px] rounded-full bg-emerald-900/[0.12] blur-[120px]" />
+        </div>
+
+        {/* Dot-grid overlay */}
+        <div className="pointer-events-none fixed inset-0 z-0 fg-dot-grid opacity-100" aria-hidden="true" />
+
+        {/* App content */}
+        <div className="relative z-10 w-full">
+          <ViewController appConfig={appConfig} />
+        </div>
       </main>
+
       <StartAudioButton label="Start Audio" />
       <Toaster
         icons={{
@@ -53,9 +77,9 @@ export function App({ appConfig }: AppProps) {
         className="toaster group"
         style={
           {
-            '--normal-bg': 'var(--popover)',
-            '--normal-text': 'var(--popover-foreground)',
-            '--normal-border': 'var(--border)',
+            '--normal-bg': '#0D1624',
+            '--normal-text': '#E8EDF5',
+            '--normal-border': 'rgba(255,255,255,0.08)',
           } as React.CSSProperties
         }
       />

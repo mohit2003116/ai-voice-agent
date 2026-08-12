@@ -1,100 +1,42 @@
 import { NextResponse } from 'next/server';
-import { AccessToken, type AccessTokenOptions, type VideoGrant } from 'livekit-server-sdk';
-import { RoomConfiguration } from '@livekit/protocol';
+import { getEscalations } from '@/lib/db';
 
-type ConnectionDetails = {
-  serverUrl: string;
-  roomName: string;
-  participantName: string;
-  participantToken: string;
-};
-
-// NOTE: you are expected to define the following environment variables in `.env.local`:
-const API_KEY = process.env.LIVEKIT_API_KEY;
-const API_SECRET = process.env.LIVEKIT_API_SECRET;
-const LIVEKIT_URL = process.env.LIVEKIT_URL;
-const AGENT_NAME = process.env.AGENT_NAME;
-
-// don't cache the results
-export const revalidate = 0;
-
-export async function POST(req: Request) {
-  try {
-    if (LIVEKIT_URL === undefined) {
-      throw new Error('LIVEKIT_URL is not defined');
-    }
-    if (API_KEY === undefined) {
-      throw new Error('LIVEKIT_API_KEY is not defined');
-    }
-    if (API_SECRET === undefined) {
-      throw new Error('LIVEKIT_API_SECRET is not defined');
-    }
-
-    // Parse room config from request body (if provided).
-    const body = await req.json().catch(() => ({}));
-    let roomConfig: RoomConfiguration | undefined;
-    if (body?.room_config) {
-      roomConfig = RoomConfiguration.fromJson(body.room_config, { ignoreUnknownFields: true });
-    } else if (AGENT_NAME) {
-      // When AGENT_NAME is set, configure explicit agent dispatch so the named
-      // agent worker picks up the job when a user joins the room.
-      roomConfig = RoomConfiguration.fromJson(
-        { agents: [{ agentName: AGENT_NAME }] },
-        { ignoreUnknownFields: true }
-      );
-    }
-      
-    // Generate participant token
-    const participantName = 'user';
-    const participantIdentity = `voice_assistant_user_${Math.floor(Math.random() * 10_000)}`;
-    const roomName = `voice_assistant_room_${Math.floor(Math.random() * 10_000)}`;
-
-    const participantToken = await createParticipantToken(
-      { identity: participantIdentity, name: participantName },
-      roomName,
-      roomConfig
-    );
-
-    // Return connection details
-    const data: ConnectionDetails = {
-      serverUrl: LIVEKIT_URL,
-      roomName,
-      participantName,
-      participantToken,
-    };
-    const headers = new Headers({
-      'Cache-Control': 'no-store',
-    });
-    return NextResponse.json(data, { headers });
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error);
-      return new NextResponse(error.message, { status: 500 });
-    }
-  }
+function sanitizeSensitiveText(text: string): string {
+  if (!text) return '';
+  let sanitized = text;
+  // Redact OTP, PIN, CVV, passwords
+  sanitized = sanitized.replace(/\b(otp|one[- ]time[- ]password|verification code)\s*(?:is|code|number)?\s*[:=]*\s*\d{4,8}\b/gi, '[REDACTED_OTP]');
+  sanitized = sanitized.replace(/\b(pin|atm pin|upi pin)\s*(?:is|code|number)?\s*[:=]*\s*\d{4,6}\b/gi, '[REDACTED_PIN]');
+  sanitized = sanitized.replace(/\b(cvv2?|cvc)\s*(?:is|code|number)?\s*[:=]*\s*\d{3,4}\b/gi, '[REDACTED_CVV]');
+  sanitized = sanitized.replace(/\b(password|passcode|pwd)\s*(?:is|code)?\s*[:=]*\s*\S+/gi, '[REDACTED_PASSWORD]');
+  // Redact 13-19 digit card numbers
+  sanitized = sanitized.replace(/\b(?:\d[ -]*?){13,19}\b/g, '[REDACTED_CARD]');
+  // Redact 9-18 digit account numbers
+  sanitized = sanitized.replace(/\b\d{9,18}\b/g, '[REDACTED_ACCOUNT]');
+  return sanitized;
 }
 
-function createParticipantToken(
-  userInfo: AccessTokenOptions,
-  roomName: string,
-  roomConfig?: RoomConfiguration
-): Promise<string> {
-  const at = new AccessToken(API_KEY, API_SECRET, {
-    ...userInfo,
-    ttl: '15m',
-  });
-  const grant: VideoGrant = {
-    room: roomName,
-    roomJoin: true,
-    canPublish: true,
-    canPublishData: true,
-    canSubscribe: true,
-  };
-  at.addGrant(grant);
+export async function GET() {
+  try {
+    const rawEscalations = getEscalations(50);
+    
+    // Ensure sensitive information is NEVER displayed/leaked
+    const escalations = rawEscalations.map((item) => ({
+      ...item,
+      short_summary: sanitizeSensitiveText(item.short_summary),
+      issue_type: sanitizeSensitiveText(item.issue_type),
+      status: item.status || 'open',
+    }));
 
-  if (roomConfig) {
-    at.roomConfig = roomConfig;
+    return NextResponse.json({
+      success: true,
+      escalations,
+    });
+  } catch (error: any) {
+    console.error('Error fetching human escalations from database:', error);
+    return NextResponse.json(
+      { success: false, error: error.message || 'Failed to fetch escalations' },
+      { status: 500 }
+    );
   }
-
-  return at.toJwt();
 }

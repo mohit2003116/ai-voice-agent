@@ -1,65 +1,445 @@
-import { Button } from '@/components/ui/button';
+'use client';
 
-function WelcomeImage() {
-  return (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="text-fg0 mb-4 size-16"
-    >
-      <path
-        d="M15 24V40C15 40.7957 14.6839 41.5587 14.1213 42.1213C13.5587 42.6839 12.7956 43 12 43C11.2044 43 10.4413 42.6839 9.87868 42.1213C9.31607 41.5587 9 40.7957 9 40V24C9 23.2044 9.31607 22.4413 9.87868 21.8787C10.4413 21.3161 11.2044 21 12 21C12.7956 21 13.5587 21.3161 14.1213 21.8787C14.6839 22.4413 15 23.2044 15 24ZM22 5C21.2044 5 20.4413 5.31607 19.8787 5.87868C19.3161 6.44129 19 7.20435 19 8V56C19 56.7957 19.3161 57.5587 19.8787 58.1213C20.4413 58.6839 21.2044 59 22 59C22.7956 59 23.5587 58.6839 24.1213 58.1213C24.6839 57.5587 25 56.7957 25 56V8C25 7.20435 24.6839 6.44129 24.1213 5.87868C23.5587 5.31607 22.7956 5 22 5ZM32 13C31.2044 13 30.4413 13.3161 29.8787 13.8787C29.3161 14.4413 29 15.2044 29 16V48C29 48.7957 29.3161 49.5587 29.8787 50.1213C30.4413 50.6839 31.2044 51 32 51C32.7956 51 33.5587 50.6839 34.1213 50.1213C34.6839 49.5587 35 48.7957 35 48V16C35 15.2044 34.6839 14.4413 34.1213 13.8787C33.5587 13.3161 32.7956 13 32 13ZM42 21C41.2043 21 40.4413 21.3161 39.8787 21.8787C39.3161 22.4413 39 23.2044 39 24V40C39 40.7957 39.3161 41.5587 39.8787 42.1213C40.4413 42.6839 41.2043 43 42 43C42.7957 43 43.5587 42.6839 44.1213 42.1213C44.6839 41.5587 45 40.7957 45 40V24C45 23.2044 44.6839 22.4413 44.1213 21.8787C43.5587 21.3161 42.7957 21 42 21ZM52 17C51.2043 17 50.4413 17.3161 49.8787 17.8787C49.3161 18.4413 49 19.2044 49 20V44C49 44.7957 49.3161 45.5587 49.8787 46.1213C50.4413 46.6839 51.2043 47 52 47C52.7957 47 53.5587 46.6839 54.1213 46.1213C54.6839 45.5587 55 44.7957 55 44V20C55 19.2044 54.6839 18.4413 54.1213 17.8787C53.5587 17.3161 52.7957 17 52 17Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+import React, { useState } from 'react';
+import {
+  Mic,
+  PhoneCall,
+  RotateCcw,
+  ShieldCheck,
+  Landmark,
+  ShieldAlert,
+  HeartHandshake,
+  Sparkles,
+  Database,
+  Lock,
+  AlertTriangle,
+  TrendingUp,
+} from 'lucide-react';
+import { AgentStatusBadge } from '@/components/app/agent-status-badge';
+import { HistoryModal } from '@/components/app/history-modal';
+import { EscalationDashboardModal } from '@/components/app/escalation-dashboard-modal';
+import { FeedbackForm } from '@/components/app/feedback-form';
+import { CallAnalyticsDashboard } from '@/components/app/call-analytics-dashboard';
 
 interface WelcomeViewProps {
   startButtonText: string;
   onStartCall: () => void;
+  hasCallEnded?: boolean;
 }
 
+/* ─── Voice Orb ──────────────────────────────────────────── */
+function VoiceOrb({ hasCallEnded }: { hasCallEnded: boolean }) {
+  return (
+    <div className="relative flex items-center justify-center" style={{ width: 200, height: 200 }}>
+      {/* Outermost ring — slow pulse */}
+      <div
+        className="absolute rounded-full border border-emerald-500/15 animate-orb-ring-pulse"
+        style={{ width: 196, height: 196 }}
+      />
+      {/* Middle ring */}
+      <div
+        className="absolute rounded-full border border-emerald-500/25 animate-orb-ring-mid"
+        style={{ width: 168, height: 168 }}
+      />
+      {/* Inner ring + glow */}
+      <div
+        className="absolute rounded-full border border-emerald-500/40"
+        style={{ width: 140, height: 140, boxShadow: '0 0 30px rgba(16,185,129,0.18), 0 0 60px rgba(16,185,129,0.08)' }}
+      />
+
+      {/* Core orb */}
+      <div
+        className="relative flex items-center justify-center rounded-full bg-[#05070A] animate-orb-glow"
+        style={{
+          width: 116,
+          height: 116,
+          border: '1.5px solid rgba(16,185,129,0.35)',
+          boxShadow: hasCallEnded
+            ? '0 0 20px rgba(16,185,129,0.1), inset 0 0 20px rgba(16,185,129,0.03)'
+            : '0 0 40px rgba(16,185,129,0.3), 0 0 80px rgba(16,185,129,0.1), inset 0 0 30px rgba(16,185,129,0.05)',
+        }}
+      >
+        {hasCallEnded ? (
+          /* Call ended — dim rotate icon */
+          <RotateCcw className="size-9 text-emerald-500/50 animate-spin-slow" />
+        ) : (
+          /* Ready — microphone + static waveform bars */
+          <div className="flex flex-col items-center gap-2">
+            <Mic className="size-7 text-emerald-400" strokeWidth={1.8} />
+            {/* Mini waveform underneath mic */}
+            <div className="flex items-end gap-0.5" style={{ height: 18 }}>
+              {[6, 12, 8, 14, 10, 8, 5].map((h, i) => (
+                <span
+                  key={i}
+                  className="rounded-full bg-emerald-400/50 animate-wave-bar"
+                  style={{
+                    width: 3,
+                    height: h,
+                    animationDelay: `${i * 110}ms`,
+                    animationDuration: '1.1s',
+                    transformOrigin: 'bottom',
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Ambient inner glow */}
+      <div
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: 140,
+          height: 140,
+          background: 'radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)',
+        }}
+      />
+    </div>
+  );
+}
+
+/* ─── Feature Card ───────────────────────────────────────── */
+function FeatureCard({
+  num,
+  icon,
+  title,
+  desc,
+  accentColor,
+}: {
+  num: string;
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+  accentColor: 'emerald' | 'teal' | 'cyan';
+}) {
+  const borderHover = {
+    emerald: 'hover:border-emerald-500/35 hover:shadow-[0_0_20px_rgba(16,185,129,0.08)]',
+    teal: 'hover:border-teal-500/35 hover:shadow-[0_0_20px_rgba(45,212,191,0.08)]',
+    cyan: 'hover:border-cyan-500/35 hover:shadow-[0_0_20px_rgba(34,211,238,0.08)]',
+  }[accentColor];
+
+  const iconBg = {
+    emerald: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+    teal: 'bg-teal-500/10 border-teal-500/20 text-teal-400',
+    cyan: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400',
+  }[accentColor];
+
+  const numColor = {
+    emerald: 'text-emerald-500/40',
+    teal: 'text-teal-500/40',
+    cyan: 'text-cyan-500/40',
+  }[accentColor];
+
+  return (
+    <div
+      className={`group relative flex flex-col gap-3 p-5 rounded-2xl fg-glass fg-glass-hover border border-white/6 transition-all duration-300 ${borderHover}`}
+    >
+      {/* Number */}
+      <span className={`text-xs font-bold font-mono tracking-widest ${numColor}`}>{num}</span>
+
+      {/* Icon */}
+      <div className={`w-fit p-2 rounded-xl border ${iconBg} group-hover:scale-110 transition-transform duration-200`}>
+        {icon}
+      </div>
+
+      {/* Text */}
+      <div className="space-y-1">
+        <h3 className="text-sm font-bold text-white leading-tight">{title}</h3>
+        <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Main Welcome View ──────────────────────────────────── */
 export const WelcomeView = ({
   startButtonText,
   onStartCall,
+  hasCallEnded = false,
   ref,
 }: React.ComponentProps<'div'> & WelcomeViewProps) => {
+  const [historyModalOpen, setHistoryModalOpen] = useState(false);
+  const [escalationsModalOpen, setEscalationsModalOpen] = useState(false);
+  const [analyticsOpen, setAnalyticsOpen] = useState(false);
+
   return (
-    <div ref={ref}>
-      <section className="bg-background flex flex-col items-center justify-center text-center">
-        <WelcomeImage />
-
-        <p className="text-foreground max-w-prose pt-1 leading-6 font-medium">
-          Chat live with your voice AI agent
-        </p>
-
-        <Button
-          size="lg"
-          onClick={onStartCall}
-          className="mt-6 w-64 rounded-full font-mono text-xs font-bold tracking-wider uppercase"
+    <div
+      ref={ref}
+      className="relative flex flex-col items-center w-full min-h-svh px-4 pt-20 pb-16 md:pt-24 md:pb-20"
+    >
+      {/* ── Top-right: Escalations, Analytics & Call History Buttons ── */}
+      <div className="absolute top-[68px] right-4 z-20 flex items-center gap-2">
+        <button
+          onClick={() => setEscalationsModalOpen(true)}
+          id="open-escalations-btn"
+          className="flex items-center gap-2 px-3.5 py-2 rounded-xl fg-glass border border-white/8 hover:border-amber-500/30 text-slate-400 hover:text-amber-400 text-xs font-semibold transition-all duration-200 hover:scale-105"
         >
-          {startButtonText}
-        </Button>
+          <ShieldAlert className="size-3.5 text-amber-500/70" />
+          <span className="hidden sm:inline">Escalations</span>
+        </button>
+        <button
+          onClick={() => setAnalyticsOpen(true)}
+          id="open-analytics-btn"
+          className="flex items-center gap-2 px-3.5 py-2 rounded-xl fg-glass border border-white/8 hover:border-cyan-500/30 text-slate-400 hover:text-cyan-400 text-xs font-semibold transition-all duration-200 hover:scale-105"
+        >
+          <TrendingUp className="size-3.5 text-cyan-500/70" />
+          <span className="hidden sm:inline">Analytics</span>
+        </button>
+        <button
+          onClick={() => setHistoryModalOpen(true)}
+          id="open-history-btn"
+          className="flex items-center gap-2 px-3.5 py-2 rounded-xl fg-glass border border-white/8 hover:border-emerald-500/30 text-slate-400 hover:text-emerald-400 text-xs font-semibold transition-all duration-200 hover:scale-105"
+        >
+          <Database className="size-3.5 text-emerald-500/70" />
+          <span className="hidden sm:inline">Call History</span>
+        </button>
+      </div>
+
+      {/* ════════════════════════════════════════════
+          HERO SECTION
+      ════════════════════════════════════════════ */}
+      <section className="relative z-10 flex flex-col items-center text-center w-full max-w-2xl mx-auto pt-6 md:pt-10">
+
+        {/* Hero heading */}
+        {!hasCallEnded && (
+          <div className="mb-6 space-y-3 animate-fade-in-up">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
+              Your Financial Safety,
+              <br />
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #10b981 0%, #34d399 40%, #22d3ee 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                One Conversation Away.
+              </span>
+            </h1>
+            <p className="text-sm sm:text-base text-slate-400 max-w-md mx-auto leading-relaxed font-normal">
+              Get simple guidance on banking, government schemes, and financial scam awareness — through voice.
+            </p>
+          </div>
+        )}
+
+        {/* Call Ended heading */}
+        {hasCallEnded && (
+          <div className="mb-6 space-y-2 animate-fade-in-up">
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+              Session Completed
+            </h1>
+            <p className="text-sm text-slate-400 leading-relaxed max-w-sm mx-auto">
+              Your financial voice session has ended. Start a new conversation whenever you're ready.
+            </p>
+          </div>
+        )}
+
+        {/* ── VOICE ORB ── */}
+        <div className="my-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <VoiceOrb hasCallEnded={hasCallEnded} />
+        </div>
+
+        {/* State badge */}
+        <div className="mb-6 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+          <AgentStatusBadge state={hasCallEnded ? 'ended' : 'ready'} showSubtitle />
+        </div>
+
+        {/* ── PRIMARY CTA BUTTON ── */}
+        <div className="w-full flex justify-center mb-10 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <button
+            onClick={onStartCall}
+            className="group relative flex items-center justify-center gap-2.5 rounded-full font-bold text-sm tracking-wide uppercase transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/50"
+            style={{
+              width: '100%',
+              maxWidth: 340,
+              height: 52,
+              background: 'linear-gradient(135deg, #10b981 0%, #0d9488 50%, #06b6d4 100%)',
+              boxShadow: '0 0 30px rgba(16,185,129,0.35), 0 4px 24px rgba(16,185,129,0.2)',
+              color: '#05070A',
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget;
+              el.style.transform = 'scale(1.03)';
+              el.style.boxShadow = '0 0 50px rgba(16,185,129,0.55), 0 6px 30px rgba(16,185,129,0.3)';
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget;
+              el.style.transform = 'scale(1)';
+              el.style.boxShadow = '0 0 30px rgba(16,185,129,0.35), 0 4px 24px rgba(16,185,129,0.2)';
+            }}
+            onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.97)'; }}
+            onMouseUp={(e) => { e.currentTarget.style.transform = 'scale(1.03)'; }}
+          >
+            {hasCallEnded ? (
+              <>
+                <RotateCcw className="size-4" />
+                Start Again
+              </>
+            ) : (
+              <>
+                <PhoneCall className="size-4" strokeWidth={2.5} />
+                {startButtonText || 'Start Financial Safety Call'}
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Post-call feedback */}
+        {hasCallEnded && (
+          <div className="w-full max-w-sm mb-10 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+            <FeedbackForm />
+          </div>
+        )}
       </section>
 
-      <div className="fixed bottom-5 left-0 flex w-full items-center justify-center">
-        <p className="text-muted-foreground max-w-prose pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">
-          Need help getting set up? Check out the{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://docs.livekit.io/agents/start/voice-ai/"
-            className="underline"
-          >
-            Voice AI quickstart
-          </a>
-          .
-        </p>
-      </div>
+      {/* ════════════════════════════════════════════
+          FEATURE CARDS SECTION
+      ════════════════════════════════════════════ */}
+      <section className="relative z-10 w-full max-w-2xl mx-auto mb-8 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <FeatureCard
+            num="01"
+            icon={<Landmark className="size-5" strokeWidth={1.8} />}
+            title="Government Schemes"
+            desc="Understand eligibility and basic scheme information."
+            accentColor="emerald"
+          />
+          <FeatureCard
+            num="02"
+            icon={<HeartHandshake className="size-5" strokeWidth={1.8} />}
+            title="Basic Banking"
+            desc="Get simple explanations for common banking questions."
+            accentColor="teal"
+          />
+          <FeatureCard
+            num="03"
+            icon={<ShieldAlert className="size-5" strokeWidth={1.8} />}
+            title="Scam Safety"
+            desc="Learn how to identify suspicious calls, messages and requests."
+            accentColor="cyan"
+          />
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════
+          SECURITY CARD
+      ════════════════════════════════════════════ */}
+      <section className="relative z-10 w-full max-w-2xl mx-auto mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+        <div
+          className="relative overflow-hidden rounded-2xl fg-glass border border-white/8 p-5"
+          style={{ boxShadow: '0 0 30px rgba(16,185,129,0.04)' }}
+        >
+          {/* Top accent strip */}
+          <div
+            className="absolute top-0 left-0 right-0 h-[2px]"
+            style={{ background: 'linear-gradient(90deg, #10b981, #0d9488, #22d3ee)' }}
+          />
+
+          <div className="flex items-start gap-4">
+            {/* Shield icon */}
+            <div className="flex-shrink-0 flex size-11 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <ShieldCheck className="size-5 text-emerald-400" strokeWidth={1.8} />
+            </div>
+
+            <div className="space-y-1.5">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                Your security comes first.
+                <Lock className="size-3.5 text-emerald-500/60" />
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                FinGuard will{' '}
+                <span className="font-bold text-white">NEVER</span> ask for your{' '}
+                <span className="text-emerald-400/80 font-semibold">OTP</span>,{' '}
+                <span className="text-emerald-400/80 font-semibold">PIN</span>,{' '}
+                <span className="text-emerald-400/80 font-semibold">password</span>,{' '}
+                <span className="text-emerald-400/80 font-semibold">CVV</span> or any banking credentials.
+                If anyone claims to be FinGuard and asks for these, it's a scam.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════
+          SUGGESTED QUESTIONS CHIPS
+      ════════════════════════════════════════════ */}
+      <section className="relative z-10 w-full max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <Sparkles className="size-3.5 text-emerald-400/70" />
+          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Try asking</p>
+          <Sparkles className="size-3.5 text-emerald-400/70" />
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-2.5">
+          {[
+            { text: '"PM Kisan Yojana ki eligibility kya hai?"', color: 'emerald' },
+            { text: '"UPI PIN share karna safe hai?"', color: 'teal' },
+            { text: '"Fake call identify kaise karein?"', color: 'cyan' },
+          ].map(({ text, color }) => {
+            const chipStyles = {
+              emerald: {
+                bg: 'rgba(16,185,129,0.06)',
+                border: 'rgba(16,185,129,0.25)',
+                text: '#34d399',
+                hoverBorder: 'rgba(16,185,129,0.5)',
+              },
+              teal: {
+                bg: 'rgba(45,212,191,0.06)',
+                border: 'rgba(45,212,191,0.25)',
+                text: '#2dd4bf',
+                hoverBorder: 'rgba(45,212,191,0.5)',
+              },
+              cyan: {
+                bg: 'rgba(34,211,238,0.06)',
+                border: 'rgba(34,211,238,0.25)',
+                text: '#22d3ee',
+                hoverBorder: 'rgba(34,211,238,0.5)',
+              },
+            }[color] as { bg: string; border: string; text: string; hoverBorder: string };
+
+            return (
+              <span
+                key={text}
+                className="cursor-pointer text-[11px] font-medium px-3.5 py-2 rounded-full transition-all duration-200 hover:scale-105"
+                style={{
+                  background: chipStyles.bg,
+                  border: `1px solid ${chipStyles.border}`,
+                  color: chipStyles.text,
+                  backdropFilter: 'blur(8px)',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = chipStyles.hoverBorder;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderColor = chipStyles.border;
+                }}
+              >
+                {text}
+              </span>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* History Modal */}
+      <HistoryModal
+        isOpen={historyModalOpen}
+        onClose={() => setHistoryModalOpen(false)}
+      />
+
+      {/* Escalation Dashboard Modal */}
+      <EscalationDashboardModal
+        isOpen={escalationsModalOpen}
+        onClose={() => setEscalationsModalOpen(false)}
+      />
+
+      {/* Call Analytics Dashboard */}
+      <CallAnalyticsDashboard
+        isOpen={analyticsOpen}
+        onClose={() => setAnalyticsOpen(false)}
+      />
     </div>
   );
 };
